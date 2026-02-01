@@ -1,0 +1,14 @@
+import unittest
+from finance_tracker.expense import Expense
+
+class TestExpense(unittest.TestCase):
+
+    def test_expense_creation(self):
+        e = Expense("2025-02-01", 500, "Food", "Groceries")
+        self.assertEqual(e.date, "2025-02-01")
+        self.assertEqual(e.amount, 500)
+        self.assertEqual(e.category, "Food")
+        self.assertEqual(e.description, "Groceries")
+
+if __name__ == "__main__":
+    unittest.main()
