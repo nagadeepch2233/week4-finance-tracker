@@ -1,0 +1,97 @@
+import json, csv, os
+from collections import defaultdict
+
+class FinanceTracker:
+    FILE = "expenses.json"
+
+    def __init__(self):
+        self.expenses = self.load_data()
+
+    def show_heading(self):
+        print("\n" + "=" * 40)
+        print("           FINANCE TRACKER")
+        print("=" * 40)
+
+    def show_menu(self):
+        print("\n1. Add Expense")
+        print("2. View Expenses")
+        print("3. Search Expenses")
+        print("4. Monthly Report")
+        print("5. Category Breakdown")
+        print("6. Export to CSV")
+        print("0. Exit")
+
+    def run(self):
+        self.show_heading()
+        while True:
+            self.show_menu()
+            choice = input("Enter choice: ")
+
+            if choice == "1":
+                self.add_expense()
+            elif choice == "2":
+                self.view_expenses()
+            elif choice == "3":
+                self.search_expenses()
+            elif choice == "4":
+                self.monthly_report()
+            elif choice == "5":
+                self.category_breakdown()
+            elif choice == "6":
+                self.export_csv()
+            elif choice == "0":
+                print("Exiting Finance Tracker...")
+                break
+            else:
+                print("Invalid choice!")
+
+    def add_expense(self):
+        self.expenses.append({
+            "date": input("Date (YYYY-MM-DD): "),
+            "amount": float(input("Amount: ")),
+            "category": input("Category: "),
+            "desc": input("Description: ")
+        })
+        self.save_data()
+        print("Expense added successfully!")
+
+    def view_expenses(self):
+        if not self.expenses:
+            print("No expenses found.")
+            return
+        for e in self.expenses:
+            print(e)
+
+    def search_expenses(self):
+        key = input("Search category: ").lower()
+        for e in self.expenses:
+            if key in e["category"].lower():
+                print(e)
+
+    def monthly_report(self):
+        total = sum(e["amount"] for e in self.expenses)
+        print("Total monthly expense:", total)
+
+    def category_breakdown(self):
+        data = defaultdict(float)
+        for e in self.expenses:
+            data[e["category"]] += e["amount"]
+        for k, v in data.items():
+            print(f"{k}: {v}")
+
+    def export_csv(self):
+        with open("expenses.csv", "w", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow(["Date", "Amount", "Category", "Description"])
+            for e in self.expenses:
+                writer.writerow(e.values())
+        print("Data exported to expenses.csv")
+
+    def save_data(self):
+        json.dump(self.expenses, open(self.FILE, "w"), indent=2)
+
+    def load_data(self):
+        return json.load(open(self.FILE)) if os.path.exists(self.FILE) else []
+
+if __name__ == "__main__":
+    FinanceTracker().run()
