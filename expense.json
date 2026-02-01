@@ -1,0 +1,20 @@
+[
+  {
+    "date": "2025-02-01",
+    "amount": 500.0,
+    "category": "Food",
+    "description": "Groceries"
+  },
+  {
+    "date": "2025-02-02",
+    "amount": 1500.0,
+    "category": "Rent",
+    "description": "February rent"
+  },
+  {
+    "date": "2025-02-03",
+    "amount": 200.0,
+    "category": "Transport",
+    "description": "Bus fare"
+  }
+]
